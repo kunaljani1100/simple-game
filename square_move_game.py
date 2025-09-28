@@ -15,7 +15,6 @@ while True:
             sys.exit()
 
     keys = pygame.key.get_pressed()
-    print(keys)
     if keys[pygame.K_LEFT]:
         if x >= 0:
             x -= 1
