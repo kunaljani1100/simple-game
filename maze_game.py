@@ -15,6 +15,13 @@ goal_x = 1280 - goal_size - 50  # offset from right edge
 goal_y = 720 - goal_size - 50   # offset from bottom edge
 goal_rect = pygame.Rect(goal_x, goal_y, goal_size, goal_size)
 
+# Define obstacles
+obstacles = [
+    pygame.Rect(300, 200, 100, 100),
+    pygame.Rect(600, 400, 150, 150),
+    pygame.Rect(900, 100, 120, 120)
+]
+
 font = pygame.font.SysFont(None, 72)
 clock = pygame.time.Clock()
 won = False
@@ -32,15 +39,23 @@ while True:
         if keys[pygame.K_LEFT]:
             if player_rect.x > 0:
                 player_rect.x -= 5
+                if any(player_rect.colliderect(obstacle) for obstacle in obstacles):
+                    player_rect.x += 5
         if keys[pygame.K_RIGHT]:
             if player_rect.x < 1280 - player_size:
                 player_rect.x += 5
+                if any(player_rect.colliderect(obstacle) for obstacle in obstacles):
+                    player_rect.x -= 5
         if keys[pygame.K_UP]:
             if player_rect.y > 0:
                 player_rect.y -= 5
+                if any(player_rect.colliderect(obstacle) for obstacle in obstacles):
+                    player_rect.y += 5
         if keys[pygame.K_DOWN]:
             if player_rect.y < 720 - player_size:
                 player_rect.y += 5
+                if any(player_rect.colliderect(obstacle) for obstacle in obstacles):
+                    player_rect.y -= 5
 
         # check if player reached the goal
         if player_rect.colliderect(goal_rect):
@@ -53,6 +68,10 @@ while True:
     pygame.draw.rect(screen, (0, 200, 0), goal_rect)
     # draw player in red
     pygame.draw.rect(screen, (200, 0, 0), player_rect)
+
+    # Draw obstacles
+    for obstacle in obstacles:
+        pygame.draw.rect(screen, (255, 165, 0), obstacle)
 
     if won:
         text = font.render("You Win!", True, (255, 255, 255))
