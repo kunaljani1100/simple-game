@@ -1,3 +1,5 @@
+from turtledemo.nim import COLOR
+
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 
@@ -5,6 +7,7 @@ class Game(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         self.model = self.loader.loadModel("models/box")
+        self.model.setColor(1000)
         self.model.reparentTo(self.render)
         self.model.setPos(0, 10, 0)
 
